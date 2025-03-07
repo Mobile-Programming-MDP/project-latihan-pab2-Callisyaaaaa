@@ -13,6 +13,7 @@ class SearchScreenState extends State<SearchScreen> {
   final ApiService _apiService = ApiService();
   final TextEditingController _searchController = TextEditingController();
   List<Movie> _searchResults = [];
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +33,7 @@ class SearchScreenState extends State<SearchScreen> {
       });
       return;
     }
+
     final List<Map<String, dynamic>> searchData =
         await _apiService.searchMovies(_searchController.text);
     setState(() {
@@ -42,7 +44,9 @@ class SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Search')),
+      appBar: AppBar(
+        title: const Text('Search'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -50,7 +54,10 @@ class SearchScreenState extends State<SearchScreen> {
             Container(
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1.0),
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1.0,
+                ),
                 borderRadius: BorderRadius.circular(5.0),
               ),
               child: Row(
@@ -70,7 +77,6 @@ class SearchScreenState extends State<SearchScreen> {
                       icon: const Icon(Icons.clear),
                       onPressed: () {
                         _searchController.clear();
-
                         setState(() {
                           _searchResults.clear();
                         });

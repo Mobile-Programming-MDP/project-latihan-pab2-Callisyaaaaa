@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:pilem/models/movie.dart';
 import 'package:pilem/services/api_service.dart';
+
 import 'detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
   @override
   HomeScreenState createState() => HomeScreenState();
 }
 
 class HomeScreenState extends State<HomeScreen> {
   final ApiService _apiService = ApiService();
+
   List<Movie> _allMovies = [];
   List<Movie> _trendingMovies = [];
   List<Movie> _popularMovies = [];
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +31,7 @@ class HomeScreenState extends State<HomeScreen> {
         await _apiService.getTrendingMovies();
     final List<Map<String, dynamic>> popularMoviesData =
         await _apiService.getPopularMovies();
+
     setState(() {
       _allMovies = allMoviesData.map((e) => Movie.fromJson(e)).toList();
       _trendingMovies =
@@ -45,16 +50,16 @@ class HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildMoviesList('All Movies', _allMovies),
-            _buildMoviesList('Trending Movies', _trendingMovies),
-            _buildMoviesList('Popular Movies', _popularMovies),
+            _buildMovieList('All Movies', _allMovies),
+            _buildMovieList('Trending Movies', _trendingMovies),
+            _buildMovieList('Popular Movies', _popularMovies),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildMoviesList(String title, List<Movie> movies) {
+  Widget _buildMovieList(String title, List<Movie> movies) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

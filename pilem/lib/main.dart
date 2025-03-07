@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pilem/screens/favourite_screen.dart';
 import 'package:pilem/screens/home_screen.dart';
 import 'package:pilem/screens/search_screen.dart';
-import 'package:pilem/screens/favourite_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -48,8 +48,14 @@ class MainScreenState extends State<MainScreen> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Favorite',

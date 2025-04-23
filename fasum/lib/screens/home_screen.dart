@@ -7,6 +7,20 @@ import 'package:flutter/widgets.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  String formatTime(DateTime dateTime) {
+    final now = DateTime.now();
+    final diff = now.difference(dateTime);
+    if (diff.inSeconds < 60) {
+      return '${diff.inSeconds} secs ago';
+    } else if (diff.inMinutes < 60) {
+      return '${diff.inMinutes} mins ago';
+    } else if (diff.inHours < 24) {
+      return '${diff.inHours} hrs ago';
+    } else {
+      return DateFormat('dd/mm/yyyy').format(dateTime);
+    }
+  }
+
   Future<void> signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
 
@@ -29,9 +43,28 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text("You have logged in"),
-      ),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection("posts")
+              .orderBy("created", descending: true)
+              .snapshots(),
+          builder: (context, snapshots) {
+            if (snapshots.hasData)
+              return Center(child: CircularProgressIndicator());
+
+            final posts = snapshots.data!.docs;
+            return ListView.builder(
+                itemCount: posts.length,
+                itemBuilder: (context, index) {
+                  final data = posts[index].data();
+                  final imageBase64 = data["image"];
+                  final description = data["description"];
+                  final createdAtStr = data["createdAt"];
+                  final fullName = data["fullName"] ?? 'Anonim';
+
+                  final createdAt = DateTime.parse(createdAtStr);
+                });
+          }),
     );
   }
 }
